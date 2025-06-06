@@ -572,6 +572,21 @@
         padding: 2px 5px;
         border-radius: 3px;
     }
+
+    /* Reducir el tamaño de la letra al imprimir en 2 puntos */
+@media print {
+    .receipt-container {
+        font-size: calc(10px - 2px) !important; /* Ajusta el tamaño base */
+    }
+
+    .receipt-title {
+        font-size: calc(18px - 2px) !important; /* Ajusta el tamaño del título */
+    }
+
+    .receipt-content, .receipt-footer {
+        font-size: calc(12px - 2px) !important; /* Ajusta el tamaño del contenido y pie de página */
+    }
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
