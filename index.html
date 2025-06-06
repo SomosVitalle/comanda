@@ -1851,44 +1851,56 @@ paymentMethodSelect.addEventListener('change', () => {
     }
 });
 
-// Actualizar el comportamiento del botón "Finalizar Pedido" para que no solo cambie de color, sino que también deshabilite su funcionalidad hasta que se seleccione un medio de pago
-paymentMethodSelect.addEventListener('change', () => {
-    if (paymentMethodSelect.value) {
-        finalizeOrderButton.disabled = false;
-        finalizeOrderButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
-        finalizeOrderButton.classList.add('bg-primary', 'hover:bg-opacity-90');
-    } else {
-        finalizeOrderButton.disabled = true;
-        finalizeOrderButton.classList.remove('bg-primary', 'hover:bg-opacity-90');
-        finalizeOrderButton.classList.add('bg-gray-400', 'cursor-not-allowed');
-    }
-});
-
-// Validar tanto productos como medio de pago antes de habilitar el botón "Finalizar Pedido"
-function validateFinalizeButton() {
-    const hasProducts = currentOrder.length > 0;
-    const hasPaymentMethod = paymentMethodSelect.value;
-
-    if (hasProducts && hasPaymentMethod) {
-        finalizeOrderButton.disabled = false;
-        finalizeOrderButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
-        finalizeOrderButton.classList.add('bg-primary', 'hover:bg-opacity-90');
-    } else {
-        finalizeOrderButton.disabled = true;
-        finalizeOrderButton.classList.remove('bg-primary', 'hover:bg-opacity-90');
-        finalizeOrderButton.classList.add('bg-gray-400', 'cursor-not-allowed');
-    }
+// Inicializar el estado del botón al cargar la página
+if (!paymentMethodSelect.value) {
+    finalizeOrderButton.disabled = true;
+    finalizeOrderButton.classList.add('bg-gray-400', 'cursor-not-allowed');
 }
 
-// Llamar a la validación al cambiar el medio de pago o al actualizar el pedido
-paymentMethodSelect.addEventListener('change', validateFinalizeButton);
-updateOrderSummary = function() {
-    // ...existing code...
-    validateFinalizeButton();
-};
+// Modificar la función showReceiptPreview para incluir el medio de pago debajo de "Total"
+function showReceiptPreview(paymentMethod) {
+    if (currentOrder.length === 0) {
+        receiptContent.innerHTML = '<p class="text-center text-gray-500">No hay productos en el pedido.</p>';
+        return;
+    }
 
-// Inicializar el estado del botón al cargar la página
-validateFinalizeButton();
+    let total = 0;
+    receiptContent.innerHTML = '';
+
+    currentOrder.forEach((item) => {
+        const itemTotal = item.product.price * item.quantity;
+        total += itemTotal;
+
+        const receiptItem = document.createElement('div');
+        receiptItem.className = 'flex justify-between items-center mb-2';
+        receiptItem.innerHTML = `
+            <div>
+                <p class="text-sm font-medium">${item.product.name}</p>
+                <p class="text-xs text-gray-500">Cantidad: ${item.quantity} | Precio unitario: $${item.product.price.toLocaleString()}</p>
+            </div>
+            <p class="text-sm font-medium">$${itemTotal.toLocaleString()}</p>
+        `;
+
+        receiptContent.appendChild(receiptItem);
+    });
+
+    const totalElement = document.createElement('div');
+    totalElement.className = 'border-t border-gray-300 pt-2 mt-2 flex justify-between items-center';
+    totalElement.innerHTML = `
+        <p class="text-sm font-medium">Total:</p>
+        <p class="text-sm font-medium">$${total.toLocaleString()}</p>
+    `;
+
+    receiptContent.appendChild(totalElement);
+
+    // Agregar el medio de pago al preview
+    const paymentMethodElement = document.createElement('div');
+    paymentMethodElement.className = 'mt-4 text-sm text-gray-700';
+    paymentMethodElement.innerHTML = `<p><strong>Medio de Pago:</strong> ${paymentMethod}</p>`;
+    receiptContent.appendChild(paymentMethodElement);
+
+    receiptModal.classList.remove('hidden');
+}
         
         // Initialize the app when DOM is loaded
         document.addEventListener('DOMContentLoaded', init);
