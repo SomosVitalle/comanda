@@ -1772,8 +1772,8 @@
             window.print();
         }
 
-        // En la función generateReceiptContent, se agrega el precio unitario entre cantidad y el total
-function generateReceiptContent() {
+        // En la función showReceiptPreview, se agrega el precio unitario entre cantidad y total
+function showReceiptPreview() {
     if (currentOrder.length === 0) {
         receiptContent.innerHTML = '<p class="text-center text-gray-500">No hay productos en el pedido.</p>';
         return;
@@ -1807,6 +1807,8 @@ function generateReceiptContent() {
     `;
 
     receiptContent.appendChild(totalElement);
+
+    receiptModal.classList.remove('hidden');
 }
         
         // Initialize the app when DOM is loaded
