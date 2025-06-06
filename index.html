@@ -1772,6 +1772,43 @@
             window.print();
         }
 
+        // En la función generateReceiptContent, se agrega el precio unitario entre cantidad y el total
+function generateReceiptContent() {
+    if (currentOrder.length === 0) {
+        receiptContent.innerHTML = '<p class="text-center text-gray-500">No hay productos en el pedido.</p>';
+        return;
+    }
+
+    let total = 0;
+    receiptContent.innerHTML = '';
+
+    currentOrder.forEach((item) => {
+        const itemTotal = item.product.price * item.quantity;
+        total += itemTotal;
+
+        const receiptItem = document.createElement('div');
+        receiptItem.className = 'flex justify-between items-center mb-2';
+        receiptItem.innerHTML = `
+            <div>
+                <p class="text-sm font-medium">${item.product.name}</p>
+                <p class="text-xs text-gray-500">Cantidad: ${item.quantity} | Precio unitario: $${item.product.price.toLocaleString()}</p>
+            </div>
+            <p class="text-sm font-medium">$${itemTotal.toLocaleString()}</p>
+        `;
+
+        receiptContent.appendChild(receiptItem);
+    });
+
+    const totalElement = document.createElement('div');
+    totalElement.className = 'border-t border-gray-300 pt-2 mt-2 flex justify-between items-center';
+    totalElement.innerHTML = `
+        <p class="text-sm font-medium">Total:</p>
+        <p class="text-sm font-medium">$${total.toLocaleString()}</p>
+    `;
+
+    receiptContent.appendChild(totalElement);
+}
+        
         // Initialize the app when DOM is loaded
         document.addEventListener('DOMContentLoaded', init);
     </script>
