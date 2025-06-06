@@ -1802,8 +1802,42 @@
             window.print();
         }
 
-        // En la función showReceiptPreview, se agrega el precio unitario entre cantidad y total
-function showReceiptPreview() {
+        // Agregar un menú desplegable para seleccionar el medio de pago
+const paymentMethodContainer = document.createElement('div');
+paymentMethodContainer.className = 'mb-6';
+paymentMethodContainer.innerHTML = `
+    <label for="payment-method" class="block text-gray-700 text-sm font-medium mb-2">Medio de Pago</label>
+    <select id="payment-method" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" required>
+        <option value="" disabled selected>Seleccione un medio de pago</option>
+        <option value="Efectivo">Efectivo</option>
+        <option value="Consignación Bancaria">Consignación Bancaria</option>
+        <option value="Tarjeta Crédito">Tarjeta Crédito</option>
+        <option value="Tarjeta Débito">Tarjeta Débito</option>
+    </select>
+    <p id="payment-method-error" class="text-red-500 text-sm hidden">Por favor seleccione un medio de pago.</p>
+`;
+
+// Insertar el menú en el formulario de pedido
+const orderForm = document.querySelector('#order-items');
+orderForm.parentNode.insertBefore(paymentMethodContainer, orderForm.nextSibling);
+
+// Validar que se haya seleccionado un medio de pago antes de finalizar el pedido
+const finalizeOrderButton = document.querySelector('#finalize-order-btn');
+finalizeOrderButton.addEventListener('click', () => {
+    const paymentMethod = document.querySelector('#payment-method').value;
+    const paymentMethodError = document.querySelector('#payment-method-error');
+
+    if (!paymentMethod) {
+        paymentMethodError.classList.remove('hidden');
+        return;
+    }
+
+    paymentMethodError.classList.add('hidden');
+    showReceiptPreview(paymentMethod);
+});
+
+// Modificar la función showReceiptPreview para incluir el medio de pago
+function showReceiptPreview(paymentMethod) {
     if (currentOrder.length === 0) {
         receiptContent.innerHTML = '<p class="text-center text-gray-500">No hay productos en el pedido.</p>';
         return;
@@ -1838,18 +1872,11 @@ function showReceiptPreview() {
 
     receiptContent.appendChild(totalElement);
 
-    // Generar QR
-    const qrContainer = document.createElement('div');
-    qrContainer.className = 'flex justify-center mt-4';
-    const qrCanvas = document.createElement('canvas');
-    qrContainer.appendChild(qrCanvas);
-    receiptContent.appendChild(qrContainer);
-
-    const qrCode = new QRCode(qrCanvas, {
-        text: window.location.href,
-        width: 128,
-        height: 128,
-    });
+    // Agregar el medio de pago al preview
+    const paymentMethodElement = document.createElement('div');
+    paymentMethodElement.className = 'mt-4 text-sm text-gray-700';
+    paymentMethodElement.innerHTML = `<p><strong>Medio de Pago:</strong> ${paymentMethod}</p>`;
+    receiptContent.appendChild(paymentMethodElement);
 
     receiptModal.classList.remove('hidden');
 }
