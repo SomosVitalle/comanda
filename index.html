@@ -351,6 +351,20 @@
             }
         }
         
+        /* Ajustar estilos para centrar el contenido al imprimir */
+@media print {
+    .receipt-container {
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .receipt-header,
+    .receipt-footer,
+    .receipt-content > div {
+        text-align: center;
+    }
+}
+        
         /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
