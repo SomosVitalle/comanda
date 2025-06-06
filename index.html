@@ -1842,10 +1842,20 @@ const paymentMethodSelect = document.querySelector('#payment-method');
 paymentMethodSelect.addEventListener('change', () => {
     if (paymentMethodSelect.value) {
         finalizeOrderButton.disabled = false;
+        finalizeOrderButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
+        finalizeOrderButton.classList.add('bg-primary', 'hover:bg-opacity-90');
     } else {
         finalizeOrderButton.disabled = true;
+        finalizeOrderButton.classList.remove('bg-primary', 'hover:bg-opacity-90');
+        finalizeOrderButton.classList.add('bg-gray-400', 'cursor-not-allowed');
     }
 });
+
+// Inicializar el estado del botón al cargar la página
+if (!paymentMethodSelect.value) {
+    finalizeOrderButton.disabled = true;
+    finalizeOrderButton.classList.add('bg-gray-400', 'cursor-not-allowed');
+}
 
 // Modificar la función showReceiptPreview para incluir el medio de pago debajo de "Total"
 function showReceiptPreview(paymentMethod) {
