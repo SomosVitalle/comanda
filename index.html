@@ -1808,6 +1808,19 @@ function showReceiptPreview() {
 
     receiptContent.appendChild(totalElement);
 
+    // Generar QR
+    const qrContainer = document.createElement('div');
+    qrContainer.className = 'flex justify-center mt-4';
+    const qrCanvas = document.createElement('canvas');
+    qrContainer.appendChild(qrCanvas);
+    receiptContent.appendChild(qrContainer);
+
+    const qrCode = new QRCode(qrCanvas, {
+        text: window.location.href,
+        width: 128,
+        height: 128,
+    });
+
     receiptModal.classList.remove('hidden');
 }
         
