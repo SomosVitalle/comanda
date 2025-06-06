@@ -1836,7 +1836,18 @@ finalizeOrderButton.addEventListener('click', () => {
     showReceiptPreview(paymentMethod);
 });
 
-// Modificar la función showReceiptPreview para incluir el medio de pago
+// Deshabilitar el botón de "Finalizar Pedido" hasta que se seleccione un medio de pago
+const paymentMethodSelect = document.querySelector('#payment-method');
+
+paymentMethodSelect.addEventListener('change', () => {
+    if (paymentMethodSelect.value) {
+        finalizeOrderButton.disabled = false;
+    } else {
+        finalizeOrderButton.disabled = true;
+    }
+});
+
+// Modificar la función showReceiptPreview para incluir el medio de pago debajo de "Total"
 function showReceiptPreview(paymentMethod) {
     if (currentOrder.length === 0) {
         receiptContent.innerHTML = '<p class="text-center text-gray-500">No hay productos en el pedido.</p>';
