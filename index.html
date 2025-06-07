@@ -1313,7 +1313,7 @@
                     }
                 }
                 
-                // Update order summary
+                console.log('Productos en el pedido:', currentOrder); // Log para depuración
                 updateOrderSummary();
                 closeModal();
                 
@@ -1328,6 +1328,7 @@
 
         // Update order summary
         function updateOrderSummary() {
+            console.log('Actualizando resumen del pedido:', currentOrder); // Log para depuración
             if (currentOrder.length === 0) {
                 orderItems.innerHTML = '<div class="text-center text-gray-500 py-4">No hay productos agregados</div>';
                 totalSpan.textContent = '$0';
