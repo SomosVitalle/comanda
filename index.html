@@ -1456,7 +1456,7 @@
         }
 
         // Show receipt
-        function showReceipt() {
+        function showReceipt(paymentMethod = null) {
             if (currentOrder.length === 0) {
                 alert('No hay productos en el pedido');
                 return;
@@ -1473,7 +1473,7 @@
             
             // Simular retraso de procesamiento
             setTimeout(() => {
-                let total = 0;
+                let total = 0; // Inicializar el total
                 const now = new Date();
                 const formattedDate = now.toLocaleDateString('es-CO', {
                     day: 'numeric',
@@ -1515,37 +1515,47 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                ${currentOrder.map(item => `
-                                    <tr class="border-b border-gray-100">
-                                        <td class="py-2 text-sm">
-                                            ${item.product.name}
-                                            ${item.notes ? `<br><span class="text-xs text-gray-500">${item.notes}</span>` : ''}
-                                        </td>
-                                        <td class="text-right py-2 text-sm">$${item.product.price.toLocaleString()}</td>
-                                        <td class="text-right py-2 text-sm">${item.quantity}</td>
-                                        <td class="text-right py-2 text-sm">$${(item.product.price * item.quantity).toLocaleString()}</td>
-                                    </tr>
-                                `).join('')}
+                                ${currentOrder.map(item => {
+                                    const itemTotal = item.product.price * item.quantity;
+                                    total += itemTotal; // Sumar al total
+                                    return `
+                                        <tr class="border-b border-gray-100">
+                                            <td class="py-2 text-sm">
+                                                ${item.product.name}
+                                                ${item.notes ? `<br><span class="text-xs text-gray-500">${item.notes}</span>` : ''}
+                                            </td>
+                                            <td class="text-right py-2 text-sm">$${item.product.price.toLocaleString()}</td>
+                                            <td class="text-right py-2 text-sm">${item.quantity}</td>
+                                            <td class="text-right py-2 text-sm">$${itemTotal.toLocaleString()}</td>
+                                        </tr>
+                                    `;
+                                }).join('')}
                             </tbody>
                         </table>
-                                            
+                        
                         <div class="border-t border-gray-200 pt-3">
                             <div class="flex justify-between font-semibold text-lg">
                                 <span>Total:</span>
                                 <span>$${total.toLocaleString()}</span>
                             </div>
                         </div>
-                                            
+                        
+                        ${paymentMethod ? `
+                        <div class="mt-4 text-sm text-gray-700">
+                            <p><strong>Medio de Pago:</strong> ${paymentMethod}</p>
+                        </div>
+                        ` : ''}
+                        
                         <div class="receipt-footer">
                             <p class="footer-text"><strong>Sistema de facturación de Bahia Chill ®</strong><br><strong>Todos los derechos reservados</strong></p>
                         </div>
                     </div>
                 `;
                 
-                // Show receipt modal
+                // Mostrar el modal del recibo
                 receiptModal.classList.remove('hidden');
                 
-                // Hide loading state
+                // Ocultar estado de carga
                 finalizeText.classList.remove('hidden');
                 finalizeSpinner.classList.add('hidden');
             }, 800);
@@ -1846,7 +1856,7 @@ if (!paymentMethodSelect.value) {
 }
 
 // Modificar la función showReceipt para incluir el valor unitario en la tabla
-function showReceipt() {
+function showReceipt(paymentMethod = null) {
     if (currentOrder.length === 0) {
         alert('No hay productos en el pedido');
         return;
@@ -1863,7 +1873,7 @@ function showReceipt() {
 
     // Simular retraso de procesamiento
     setTimeout(() => {
-        let total = 0;
+        let total = 0; // Inicializar el total
         const now = new Date();
         const formattedDate = now.toLocaleDateString('es-CO', {
             day: 'numeric',
@@ -1894,7 +1904,7 @@ function showReceipt() {
                         <p><span class="font-medium">Atendido por:</span> ${currentUser.username}</p>
                     </div>
                 </div>
-                                            
+                
                 <table class="w-full mb-4">
                     <thead>
                         <tr class="border-b border-gray-200">
@@ -1905,37 +1915,47 @@ function showReceipt() {
                         </tr>
                     </thead>
                     <tbody>
-                        ${currentOrder.map(item => `
-                            <tr class="border-b border-gray-100">
-                                <td class="py-2 text-sm">
-                                    ${item.product.name}
-                                    ${item.notes ? `<br><span class="text-xs text-gray-500">${item.notes}</span>` : ''}
-                                </td>
-                                <td class="text-right py-2 text-sm">$${item.product.price.toLocaleString()}</td>
-                                <td class="text-right py-2 text-sm">${item.quantity}</td>
-                                <td class="text-right py-2 text-sm">$${(item.product.price * item.quantity).toLocaleString()}</td>
-                            </tr>
-                        `).join('')}
+                        ${currentOrder.map(item => {
+                            const itemTotal = item.product.price * item.quantity;
+                            total += itemTotal; // Sumar al total
+                            return `
+                                <tr class="border-b border-gray-100">
+                                    <td class="py-2 text-sm">
+                                        ${item.product.name}
+                                        ${item.notes ? `<br><span class="text-xs text-gray-500">${item.notes}</span>` : ''}
+                                    </td>
+                                    <td class="text-right py-2 text-sm">$${item.product.price.toLocaleString()}</td>
+                                    <td class="text-right py-2 text-sm">${item.quantity}</td>
+                                    <td class="text-right py-2 text-sm">$${itemTotal.toLocaleString()}</td>
+                                </tr>
+                            `;
+                        }).join('')}
                     </tbody>
                 </table>
-                                            
+                
                 <div class="border-t border-gray-200 pt-3">
                     <div class="flex justify-between font-semibold text-lg">
                         <span>Total:</span>
                         <span>$${total.toLocaleString()}</span>
                     </div>
                 </div>
-                                            
+                
+                ${paymentMethod ? `
+                <div class="mt-4 text-sm text-gray-700">
+                    <p><strong>Medio de Pago:</strong> ${paymentMethod}</p>
+                </div>
+                ` : ''}
+                
                 <div class="receipt-footer">
                     <p class="footer-text"><strong>Sistema de facturación de Bahia Chill ®</strong><br><strong>Todos los derechos reservados</strong></p>
                 </div>
             </div>
         `;
         
-        // Show receipt modal
+        // Mostrar el modal del recibo
         receiptModal.classList.remove('hidden');
         
-        // Hide loading state
+        // Ocultar estado de carga
         finalizeText.classList.remove('hidden');
         finalizeSpinner.classList.add('hidden');
     }, 800);
@@ -1948,12 +1968,12 @@ function showReceiptPreview(paymentMethod) {
         return;
     }
 
-    let total = 0;
+    let total = 0; // Inicializar el total
     receiptContent.innerHTML = '';
 
     currentOrder.forEach((item) => {
         const itemTotal = item.product.price * item.quantity;
-        total += itemTotal;
+        total += itemTotal; // Sumar al total
 
         const receiptItem = document.createElement('div');
         receiptItem.className = 'flex justify-between items-center mb-2';
