@@ -1271,19 +1271,19 @@
         // Add product to order
         function addToOrder() {
             const quantity = parseInt(productQuantity.value);
-            
+
             // Validate quantity
             if (quantity < 1) {
                 alert('La cantidad no puede ser menor a 1');
                 return;
             }
-            
+
             const notes = productNotes.value;
-            
+
             // Show loading state
             addToOrderText.classList.add('hidden');
             addToOrderSpinner.classList.remove('hidden');
-            
+
             // Simulate processing delay
             setTimeout(() => {
                 if (editingIndex !== null) {
@@ -1299,7 +1299,7 @@
                         item.product.id === currentProduct.id && 
                         item.notes === notes
                     );
-                    
+
                     if (existingIndex !== -1) {
                         // Update quantity of existing item
                         currentOrder[existingIndex].quantity += quantity;
@@ -1312,21 +1312,20 @@
                         });
                     }
                 }
-                
+
                 console.log('Productos en el pedido:', currentOrder); // Log para depuración
                 updateOrderSummary();
                 closeModal();
-                
+
                 // Enable finalize order button
                 finalizeOrderBtn.disabled = false;
-                
+
                 // Hide loading state
                 addToOrderText.classList.remove('hidden');
                 addToOrderSpinner.classList.add('hidden');
             }, 500);
         }
 
-        // Update order summary
         function updateOrderSummary() {
             console.log('Actualizando resumen del pedido:', currentOrder); // Log para depuración
             if (currentOrder.length === 0) {
@@ -1373,21 +1372,21 @@
                         </button>
                     </div>
                 `;
-                
+
                 // Add event listener to edit button
                 const editBtn = orderItem.querySelector('.edit-item');
                 editBtn.addEventListener('click', (e) => {
                     const index = parseInt(editBtn.dataset.index);
                     editOrderItem(index);
                 });
-                
+
                 // Add event listener to delete button
                 const deleteBtn = orderItem.querySelector('.delete-item');
                 deleteBtn.addEventListener('click', (e) => {
                     const index = parseInt(deleteBtn.dataset.index);
                     deleteOrderItem(index);
                 });
-                
+
                 orderItems.appendChild(orderItem);
             });
             
