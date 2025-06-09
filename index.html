@@ -1519,11 +1519,8 @@
                                     const itemTotal = item.product.price * item.quantity;
                                     total += itemTotal; // Sumar al total
                                     return `
-                                        <tr class="border-b border-gray-100">
-                                            <td class="py-2 text-sm">
-                                                ${item.product.name}
-                                                ${item.notes ? `<br><span class="text-xs text-gray-500">${item.notes}</span>` : ''}
-                                            </td>
+                                        <tr>
+                                            <td class="text-left py-2 text-sm">${item.product.name}</td>
                                             <td class="text-right py-2 text-sm">$${item.product.price.toLocaleString()}</td>
                                             <td class="text-right py-2 text-sm">${item.quantity}</td>
                                             <td class="text-right py-2 text-sm">$${itemTotal.toLocaleString()}</td>
@@ -1831,16 +1828,17 @@ orderForm.parentNode.insertBefore(paymentMethodContainer, orderForm.nextSibling)
 // Validar que se haya seleccionado un medio de pago antes de finalizar el pedido
 const finalizeOrderButton = document.querySelector('#finalize-order-btn');
 finalizeOrderButton.addEventListener('click', () => {
-    const paymentMethod = document.querySelector('#payment-method').value;
+    const paymentMethodSelect = document.querySelector('#payment-method');
+    const paymentMethod = paymentMethodSelect.options[paymentMethodSelect.selectedIndex].text; // Obtener el texto del medio de pago seleccionado
     const paymentMethodError = document.querySelector('#payment-method-error');
 
-    if (!paymentMethod) {
+    if (!paymentMethodSelect.value) {
         paymentMethodError.classList.remove('hidden');
         return;
     }
 
     paymentMethodError.classList.add('hidden');
-    showReceipt(paymentMethod); // Usar showReceipt directamente
+    showReceipt(paymentMethod); // Pasar el texto del medio de pago a showReceipt
 });
 
 // Deshabilitar el botón de "Finalizar Pedido" hasta que se seleccione un medio de pago
@@ -1929,11 +1927,8 @@ function showReceipt(paymentMethod = null) {
                             const itemTotal = item.product.price * item.quantity;
                             total += itemTotal; // Sumar al total
                             return `
-                                <tr class="border-b border-gray-100">
-                                    <td class="py-2 text-sm">
-                                        ${item.product.name}
-                                        ${item.notes ? `<br><span class="text-xs text-gray-500">${item.notes}</span>` : ''}
-                                    </td>
+                                <tr>
+                                    <td class="text-left py-2 text-sm">${item.product.name}</td>
                                     <td class="text-right py-2 text-sm">$${item.product.price.toLocaleString()}</td>
                                     <td class="text-right py-2 text-sm">${item.quantity}</td>
                                     <td class="text-right py-2 text-sm">$${itemTotal.toLocaleString()}</td>
