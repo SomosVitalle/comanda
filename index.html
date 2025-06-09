@@ -746,9 +746,6 @@
                                                         
                         <!-- Action Buttons -->
                         <div class="mt-6 space-y-2">
-                            <button id="discount-btn" class="w-full py-2 px-4 bg-green-500 text-white rounded-md font-medium hover:bg-green-600 transition duration-200">
-                                Aplicar Descuento
-                            </button>
                             <button id="clear-order-btn" class="w-full py-2 px-4 bg-gray-200 text-gray-700 rounded-md font-medium hover:bg-gray-300 transition duration-200">
                                 Limpiar Pedido
                             </button>
@@ -1998,7 +1995,17 @@ function showReceipt(paymentMethod = null) {
     }, 800);
 }
 
-// Modifiqué showDiscount para incluir botones de Editar y Eliminar, y corregí el cálculo del descuento
+// Crear el botón "Descuento"
+const discountButton = document.createElement('button');
+discountButton.textContent = 'Descuento';
+discountButton.className = 'bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mb-4';
+discountButton.addEventListener('click', showDiscount);
+
+// Insertar el botón "Descuento" encima de "Limpiar Pedido"
+const clearOrderButton = document.querySelector('#clear-order-btn');
+clearOrderButton.parentNode.insertBefore(discountButton, clearOrderButton);
+
+// Modifiqué showDiscount para incluir el formato automático de puntos en la casilla de descuento en $ y actualizar el resumen del pedido
 function showDiscount() {
     // Crear el modal de descuento
     const discountModal = document.createElement('div');
@@ -2086,7 +2093,7 @@ function showDiscount() {
             amount: discountAmount
         };
 
-        // Mostrar el descuento en el resumen del pedido con botones de Editar y Eliminar
+        // Mostrar el descuento en el resumen del pedido
         const discountSummary = document.getElementById('discount-summary');
         if (!discountSummary) {
             const discountElement = document.createElement('div');
@@ -2094,24 +2101,8 @@ function showDiscount() {
             discountElement.className = 'text-sm text-gray-700 mt-2';
             discountElement.innerHTML = `
                 <p><strong>Descuento:</strong> -$${discountAmount.toLocaleString('es-CO')} (${reason})</p>
-                <div class="flex space-x-2 mt-2">
-                    <button id="edit-discount-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded">Editar</button>
-                    <button id="delete-discount-btn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded">Eliminar</button>
-                </div>
             `;
             totalSpan.parentNode.insertBefore(discountElement, totalSpan);
-
-            // Manejar el botón "Editar"
-            document.getElementById('edit-discount-btn').addEventListener('click', () => {
-                showDiscount();
-            });
-
-            // Manejar el botón "Eliminar"
-            document.getElementById('delete-discount-btn').addEventListener('click', () => {
-                currentOrderDiscount = null;
-                discountElement.remove();
-                totalSpan.textContent = `$${total.toLocaleString('es-CO')}`;
-            });
         } else {
             discountSummary.innerHTML = `<p><strong>Descuento:</strong> -$${discountAmount.toLocaleString('es-CO')} (${reason})</p>`;
         }
