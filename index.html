@@ -1976,6 +1976,93 @@ function showReceipt(paymentMethod = null) {
     }, 800);
 }
 
+// Crear el botón "Descuento"
+const discountButton = document.createElement('button');
+discountButton.textContent = 'Descuento';
+discountButton.className = 'bg-green-300 hover:bg-green-400 text-white font-bold py-2 px-4 rounded mb-4';
+discountButton.addEventListener('click', showDiscount);
+
+// Insertar el botón "Descuento" encima de "Limpiar Pedido"
+const clearOrderButton = document.querySelector('#clear-order-btn');
+clearOrderButton.parentNode.insertBefore(discountButton, clearOrderButton);
+
+// Crear la función showDiscount
+function showDiscount() {
+    // Crear el modal de descuento
+    const discountModal = document.createElement('div');
+    discountModal.id = 'discount-modal';
+    discountModal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+
+    discountModal.innerHTML = `
+        <div class="bg-white rounded-lg shadow-lg p-6 w-96">
+            <h2 class="text-lg font-bold mb-4">Aplicar Descuento</h2>
+            <label for="discount-reason" class="block text-sm font-medium text-gray-700 mb-2">Motivo del descuento</label>
+            <textarea id="discount-reason" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent mb-4" rows="3" required></textarea>
+
+            <label for="discount-percentage" class="block text-sm font-medium text-gray-700 mb-2">Descuento en %</label>
+            <input id="discount-percentage" type="number" min="1" max="100" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent mb-4" placeholder="%">
+
+            <label for="discount-amount" class="block text-sm font-medium text-gray-700 mb-2">Descuento en $</label>
+            <input id="discount-amount" type="number" min="0" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent mb-4" placeholder="$">
+
+            <div class="flex justify-end space-x-4">
+                <button id="apply-discount-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Aplicar</button>
+                <button id="cancel-discount-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold py-2 px-4 rounded">Cancelar</button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(discountModal);
+
+    // Sincronizar los campos de porcentaje y cantidad
+    const discountPercentageInput = document.getElementById('discount-percentage');
+    const discountAmountInput = document.getElementById('discount-amount');
+
+    discountPercentageInput.addEventListener('input', () => {
+        const percentage = parseFloat(discountPercentageInput.value);
+        if (!isNaN(percentage)) {
+            const total = parseFloat(totalSpan.textContent.replace(/[^0-9.-]+/g, ''));
+            discountAmountInput.value = ((percentage / 100) * total).toFixed(2);
+        }
+    });
+
+    discountAmountInput.addEventListener('input', () => {
+        const amount = parseFloat(discountAmountInput.value);
+        if (!isNaN(amount)) {
+            const total = parseFloat(totalSpan.textContent.replace(/[^0-9.-]+/g, ''));
+            discountPercentageInput.value = ((amount / total) * 100).toFixed(2);
+        }
+    });
+
+    // Manejar el botón "Cancelar"
+    const cancelDiscountButton = document.getElementById('cancel-discount-btn');
+    cancelDiscountButton.addEventListener('click', () => {
+        document.body.removeChild(discountModal);
+    });
+
+    // Manejar el botón "Aplicar"
+    const applyDiscountButton = document.getElementById('apply-discount-btn');
+    applyDiscountButton.addEventListener('click', () => {
+        const reason = document.getElementById('discount-reason').value.trim();
+        const percentage = parseFloat(discountPercentageInput.value);
+
+        if (!reason) {
+            alert('El motivo del descuento es obligatorio.');
+            return;
+        }
+
+        if (isNaN(percentage) || percentage < 1 || percentage > 100) {
+            alert('Por favor ingrese un porcentaje de descuento válido (1% - 100%).');
+            return;
+        }
+
+        // Aplicar el descuento (lógica adicional puede ser implementada aquí)
+        alert(`Descuento aplicado: ${percentage}% por motivo: ${reason}`);
+
+        document.body.removeChild(discountModal);
+    });
+}
+
 // Initialize the app when DOM is loaded
 document.addEventListener('DOMContentLoaded', init);
     </script>
