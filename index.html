@@ -1840,7 +1840,7 @@ finalizeOrderButton.addEventListener('click', () => {
     }
 
     paymentMethodError.classList.add('hidden');
-    showReceiptPreview(paymentMethod);
+    showReceipt(paymentMethod); // Usar showReceipt en lugar de showReceiptPreview
 });
 
 // Deshabilitar el botón de "Finalizar Pedido" hasta que se seleccione un medio de pago
@@ -1859,8 +1859,6 @@ paymentMethodSelect.addEventListener('change', () => {
 });
 
 // Inicializar el estado del botón al cargar la página
-
-
 
 if (!paymentMethodSelect.value) {
     finalizeOrderButton.disabled = true;
@@ -1982,75 +1980,21 @@ function showReceipt(paymentMethod = null) {
     }, 800);
 }
 
-// Mostrar vista previa del recibo con el medio de pago
-function showReceiptPreview(paymentMethod) {
-    if (currentOrder.length === 0) {
-        receiptContent.innerHTML = '<p class="text-center text-gray-500">No hay productos en el pedido.</p>';
-        return;
-    }
-
-    let total = 0; // Inicializar el total
-    receiptContent.innerHTML = '';
-
-    currentOrder.forEach((item) => {
-        const itemTotal = item.product.price * item.quantity;
-        total += itemTotal; // Sumar al total
-
-        const receiptItem = document.createElement('div');
-        receiptItem.className = 'flex justify-between items-center mb-2';
-        receiptItem.innerHTML = `
-            <div>
-                <p class="text-sm font-medium">${item.product.name}</p>
-                <p class="text-xs text-gray-500">Cantidad: ${item.quantity}</p>
-                <p class="text-xs text-gray-500">Precio unitario: $${item.product.price.toLocaleString()}</p>
-            </div>
-            <p class="text-sm font-medium">$${itemTotal.toLocaleString()}</p>
-        `;
-        receiptContent.appendChild(receiptItem);
-    });
-
-    const totalElement = document.createElement('div');
-    totalElement.className = 'border-t border-gray-300 pt-2 mt-2 flex justify-between items-center';
-    totalElement.innerHTML = `
-        <p class="text-sm font-medium">Total:</p>
-        <p class="text-sm font-medium">$${total.toLocaleString()}</p>
-    `;
-
-    receiptContent.appendChild(totalElement);
-
-    // Agregar el medio de pago al preview
-    const paymentMethodElement = document.createElement('div');
-    paymentMethodElement.className = 'mt-4 text-sm text-gray-700';
-    paymentMethodElement.innerHTML = `<p><strong>Medio de Pago:</strong> ${paymentMethod}</p>`;
-    receiptContent.appendChild(paymentMethodElement);
-
-    // Agregar datos del cliente al preview
-    if (customerName.value || customerId.value || customerContact.value) {
-        const customerInfoElement = document.createElement('div');
-        customerInfoElement.className = 'mt-6 border-t border-gray-200 pt-4';
-        customerInfoElement.innerHTML = `
-            <h2 class="text-lg font-semibold mb-2">Datos del Cliente</h2>
-            ${customerName.value ? `<p class="text-sm mb-1"><span class="font-medium">Nombre:</span> ${customerName.value}</p>` : ''}
-            ${customerId.value ? `<p class="text-sm mb-1"><span class="font-medium">${customerIdType.options[customerIdType.selectedIndex].text}:</span> ${customerId.value}</p>` : ''}
-            ${customerContact.value ? `<p class="text-sm"><span class="font-medium">Contacto:</span> ${customerContact.value}</p>` : ''}
-        `;
-        receiptContent.appendChild(customerInfoElement);
-    }
-
-    receiptModal.classList.remove('hidden');
+// Inicializar el estado del botón al cargar la página
+if (!paymentMethodSelect.value) {
+    finalizeOrderButton.disabled = true;
+    finalizeOrderButton.classList.add('bg-gray-400', 'cursor-not-allowed');
 }
 
-// Crear y agregar el botón "Cerrar" al modal del recibo
-const closeReceiptModalBtn = document.createElement('button');
-closeReceiptModalBtn.textContent = 'Cerrar';
-closeReceiptModalBtn.className = 'absolute top-2 right-2 text-gray-500 hover:text-gray-700';
-closeReceiptModalBtn.addEventListener('click', () => {
-    receiptModal.classList.add('hidden');
+// Inicializar el estado de la aplicación
+document.addEventListener('DOMContentLoaded', () => {
+    // Cargar pedido pendiente si existe
+    const pedidoPendiente = JSON.parse(localStorage.getItem('pedidoPendiente'));
+    if (pedidoPendiente) {
+        currentOrder = pedidoPendiente;
+        updateOrderSummary();
+    }
 });
-receiptModal.appendChild(closeReceiptModalBtn);
-        
-        // Initialize the app when DOM is loaded
-        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
