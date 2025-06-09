@@ -1401,9 +1401,7 @@
 
             // Deshabilitar el botón de "Descuento" hasta que el total sea mayor a 0
             const discountButton = document.querySelector('#discount-btn');
-            const productCount = document.querySelectorAll('.order-summary .product').length; // Suponiendo que los productos están listados con la clase 'product'
-
-            if (productCount > 0) {
+            if (total > 0) {
                 discountButton.disabled = false;
                 discountButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
                 discountButton.classList.add('bg-green-500', 'hover:bg-green-600');
