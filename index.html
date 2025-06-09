@@ -1827,18 +1827,19 @@ orderForm.parentNode.insertBefore(paymentMethodContainer, orderForm.nextSibling)
 
 // Validar que se haya seleccionado un medio de pago antes de finalizar el pedido
 const finalizeOrderButton = document.querySelector('#finalize-order-btn');
-finalizeOrderButton.addEventListener('click', () => {
+finalizeOrderButton.addEventListener('click', (event) => {
+    event.preventDefault(); // Evitar comportamiento predeterminado
     const paymentMethodSelect = document.querySelector('#payment-method');
-    const paymentMethod = paymentMethodSelect.options[paymentMethodSelect.selectedIndex].text; // Obtener el texto del medio de pago seleccionado
+    const paymentMethod = paymentMethodSelect.value; // Obtener el valor del medio de pago seleccionado
     const paymentMethodError = document.querySelector('#payment-method-error');
 
-    if (!paymentMethodSelect.value) {
+    if (!paymentMethod) {
         paymentMethodError.classList.remove('hidden');
         return;
     }
 
     paymentMethodError.classList.add('hidden');
-    showReceipt(paymentMethod); // Pasar el texto del medio de pago a showReceipt
+    showReceipt(paymentMethod); // Pasar el valor del medio de pago a showReceipt
 });
 
 // Deshabilitar el botón de "Finalizar Pedido" hasta que se seleccione un medio de pago
