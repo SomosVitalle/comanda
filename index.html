@@ -1398,6 +1398,18 @@
             setTimeout(() => {
                 totalSpan.classList.remove('pulse');
             }, 500);
+
+            // Deshabilitar el botón de "Descuento" hasta que el total sea mayor a 0
+            const discountButton = document.querySelector('#discount-btn');
+            if (total > 0) {
+                discountButton.disabled = false;
+                discountButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
+                discountButton.classList.add('bg-green-500', 'hover:bg-green-600');
+            } else {
+                discountButton.disabled = true;
+                discountButton.classList.remove('bg-green-500', 'hover:bg-green-600');
+                discountButton.classList.add('bg-gray-400', 'cursor-not-allowed');
+            }
         }
 
         // Edit order item
