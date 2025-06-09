@@ -1840,7 +1840,7 @@ finalizeOrderButton.addEventListener('click', () => {
     }
 
     paymentMethodError.classList.add('hidden');
-    showReceipt(paymentMethod); // Usar showReceipt en lugar de showReceiptPreview
+    showReceipt(paymentMethod); // Usar showReceipt directamente
 });
 
 // Deshabilitar el botón de "Finalizar Pedido" hasta que se seleccione un medio de pago
@@ -1980,21 +1980,8 @@ function showReceipt(paymentMethod = null) {
     }, 800);
 }
 
-// Inicializar el estado del botón al cargar la página
-if (!paymentMethodSelect.value) {
-    finalizeOrderButton.disabled = true;
-    finalizeOrderButton.classList.add('bg-gray-400', 'cursor-not-allowed');
-}
-
-// Inicializar el estado de la aplicación
-document.addEventListener('DOMContentLoaded', () => {
-    // Cargar pedido pendiente si existe
-    const pedidoPendiente = JSON.parse(localStorage.getItem('pedidoPendiente'));
-    if (pedidoPendiente) {
-        currentOrder = pedidoPendiente;
-        updateOrderSummary();
-    }
-});
+// Initialize the app when DOM is loaded
+document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
