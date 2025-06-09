@@ -1860,6 +1860,7 @@ paymentMethodSelect.addEventListener('change', () => {
 
 // Inicializar el estado del botón al cargar la página
 
+
 if (!paymentMethodSelect.value) {
     finalizeOrderButton.disabled = true;
     finalizeOrderButton.classList.add('bg-gray-400', 'cursor-not-allowed');
@@ -2037,6 +2038,15 @@ function showReceiptPreview(paymentMethod) {
 
     receiptModal.classList.remove('hidden');
 }
+
+// Crear y agregar el botón "Cerrar" al modal del recibo
+const closeReceiptModalBtn = document.createElement('button');
+closeReceiptModalBtn.textContent = 'Cerrar';
+closeReceiptModalBtn.className = 'absolute top-2 right-2 text-gray-500 hover:text-gray-700';
+closeReceiptModalBtn.addEventListener('click', () => {
+    receiptModal.classList.add('hidden');
+});
+receiptModal.appendChild(closeReceiptModalBtn);
         
         // Initialize the app when DOM is loaded
         document.addEventListener('DOMContentLoaded', init);
