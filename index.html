@@ -1474,7 +1474,7 @@
             
             // Simular retraso de procesamiento
             setTimeout(() => {
-                let total = 0; // Inicializar el total
+                let total = currentOrder.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
                 const now = new Date();
                 const formattedDate = now.toLocaleDateString('es-CO', {
                     day: 'numeric',
@@ -1892,7 +1892,7 @@ function showReceipt(paymentMethod = null) {
 
     // Simular retraso de procesamiento
     setTimeout(() => {
-        let total = 0; // Inicializar el total
+        let total = currentOrder.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
         const now = new Date();
         const formattedDate = now.toLocaleDateString('es-CO', {
             day: 'numeric',
@@ -2005,7 +2005,7 @@ discountButton.addEventListener('click', showDiscount);
 const clearOrderButton = document.querySelector('#clear-order-btn');
 clearOrderButton.parentNode.insertBefore(discountButton, clearOrderButton);
 
-// Modifiqué showDiscount para incluir el formato automático de puntos en la casilla de descuento en $ y actualizar el resumen del pedido
+// Modifiqué showDiscount para asegurar que el descuento se aplique al total final
 function showDiscount() {
     // Crear el modal de descuento
     const discountModal = document.createElement('div');
@@ -2040,7 +2040,7 @@ function showDiscount() {
     discountPercentageInput.addEventListener('input', () => {
         const percentage = parseFloat(discountPercentageInput.value);
         if (!isNaN(percentage)) {
-            const total = parseFloat(totalSpan.textContent.replace(/[^0-9.-]+/g, ''));
+            const total = currentOrder.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
             const discountAmount = Math.round((percentage / 100) * total);
             discountAmountInput.value = discountAmount.toLocaleString('es-CO');
         }
@@ -2049,7 +2049,7 @@ function showDiscount() {
     discountAmountInput.addEventListener('input', () => {
         const amount = parseFloat(discountAmountInput.value.replace(/[^0-9.-]+/g, ''));
         if (!isNaN(amount)) {
-            const total = parseFloat(totalSpan.textContent.replace(/[^0-9.-]+/g, ''));
+            const total = currentOrder.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
             const percentage = Math.round((amount / total) * 100);
             discountPercentageInput.value = percentage;
 
@@ -2080,7 +2080,7 @@ function showDiscount() {
             return;
         }
 
-        const total = parseFloat(totalSpan.textContent.replace(/[^0-9.-]+/g, ''));
+        const total = currentOrder.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
         const discountAmount = Math.round((percentage / 100) * total);
 
         // Actualizar el resumen del pedido
@@ -2129,7 +2129,7 @@ function showReceipt(paymentMethod = null) {
 
     // Simular retraso de procesamiento
     setTimeout(() => {
-        let total = 0; // Inicializar el total
+        let total = currentOrder.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
         const now = new Date();
         const formattedDate = now.toLocaleDateString('es-CO', {
             day: 'numeric',
@@ -2173,7 +2173,6 @@ function showReceipt(paymentMethod = null) {
                     <tbody>
                         ${currentOrder.map(item => {
                             const itemTotal = item.product.price * item.quantity;
-                            total += itemTotal; // Sumar al total
                             return `
                                 <tr>
                                     <td class="text-left py-2 text-sm">${item.product.name}</td>
