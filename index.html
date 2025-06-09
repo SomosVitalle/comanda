@@ -1531,10 +1531,19 @@
                             </tbody>
                         </table>
                         
+                        ${currentOrderDiscount ? `
+                        <div class="border-t border-gray-200 pt-3">
+                            <div class="flex justify-between font-semibold text-lg">
+                                <span>Descuento:</span>
+                                <span>-$${currentOrderDiscount.amount.toLocaleString('es-CO')}</span>
+                            </div>
+                        </div>
+                        ` : ''}
+
                         <div class="border-t border-gray-200 pt-3">
                             <div class="flex justify-between font-semibold text-lg">
                                 <span>Total:</span>
-                                <span>$${total.toLocaleString()}</span>
+                                <span>$${(total - (currentOrderDiscount?.amount || 0)).toLocaleString('es-CO')}</span>
                             </div>
                         </div>
                                                 
@@ -1989,14 +1998,14 @@ function showReceipt(paymentMethod = null) {
 // Crear el botón "Descuento"
 const discountButton = document.createElement('button');
 discountButton.textContent = 'Descuento';
-discountButton.className = 'bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mb-4'; // Color verde más fuerte
+discountButton.className = 'bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mb-4';
 discountButton.addEventListener('click', showDiscount);
 
 // Insertar el botón "Descuento" encima de "Limpiar Pedido"
 const clearOrderButton = document.querySelector('#clear-order-btn');
 clearOrderButton.parentNode.insertBefore(discountButton, clearOrderButton);
 
-// Modifiqué showDiscount para optimizar el cálculo del descuento en COP y actualizar el resumen del pedido
+// Modifiqué showDiscount para incluir el formato automático de puntos en la casilla de descuento en $ y actualizar el resumen del pedido
 function showDiscount() {
     // Crear el modal de descuento
     const discountModal = document.createElement('div');
@@ -2013,7 +2022,7 @@ function showDiscount() {
             <input id="discount-percentage" type="number" min="1" max="100" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent mb-4" placeholder="%">
 
             <label for="discount-amount" class="block text-sm font-medium text-gray-700 mb-2">Descuento en $</label>
-            <input id="discount-amount" type="number" min="0" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent mb-4" placeholder="$">
+            <input id="discount-amount" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent mb-4" placeholder="$">
 
             <div class="flex justify-end space-x-4">
                 <button id="apply-discount-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Aplicar</button>
@@ -2032,7 +2041,8 @@ function showDiscount() {
         const percentage = parseFloat(discountPercentageInput.value);
         if (!isNaN(percentage)) {
             const total = parseFloat(totalSpan.textContent.replace(/[^0-9.-]+/g, ''));
-            discountAmountInput.value = Math.round((percentage / 100) * total).toLocaleString('es-CO');
+            const discountAmount = Math.round((percentage / 100) * total);
+            discountAmountInput.value = discountAmount.toLocaleString('es-CO');
         }
     });
 
@@ -2040,7 +2050,11 @@ function showDiscount() {
         const amount = parseFloat(discountAmountInput.value.replace(/[^0-9.-]+/g, ''));
         if (!isNaN(amount)) {
             const total = parseFloat(totalSpan.textContent.replace(/[^0-9.-]+/g, ''));
-            discountPercentageInput.value = Math.round((amount / total) * 100);
+            const percentage = Math.round((amount / total) * 100);
+            discountPercentageInput.value = percentage;
+
+            // Formatear automáticamente con puntos
+            discountAmountInput.value = amount.toLocaleString('es-CO');
         }
     });
 
@@ -2073,11 +2087,25 @@ function showDiscount() {
         const discountedTotal = total - discountAmount;
         totalSpan.textContent = `$${discountedTotal.toLocaleString('es-CO')}`;
 
-        // Guardar el descuento para usarlo en showReceipt
+        // Guardar el descuento para usarlo en showReceipt y en el resumen
         currentOrderDiscount = {
             reason,
             amount: discountAmount
         };
+
+        // Mostrar el descuento en el resumen del pedido
+        const discountSummary = document.getElementById('discount-summary');
+        if (!discountSummary) {
+            const discountElement = document.createElement('div');
+            discountElement.id = 'discount-summary';
+            discountElement.className = 'text-sm text-gray-700 mt-2';
+            discountElement.innerHTML = `
+                <p><strong>Descuento:</strong> -$${discountAmount.toLocaleString('es-CO')} (${reason})</p>
+            `;
+            totalSpan.parentNode.insertBefore(discountElement, totalSpan);
+        } else {
+            discountSummary.innerHTML = `<p><strong>Descuento:</strong> -$${discountAmount.toLocaleString('es-CO')} (${reason})</p>`;
+        }
 
         document.body.removeChild(discountModal);
     });
