@@ -1545,6 +1545,15 @@
                             <p><strong>Medio de Pago:</strong> ${paymentMethod}</p>
                         </div>
                         ` : ''}
+
+                        ${(customerName.value || customerId.value || customerContact.value) ? `
+                        <div class="mt-6 border-t border-gray-200 pt-4">
+                            <h2 class="text-lg font-semibold mb-2">Datos del Cliente</h2>
+                            ${customerName.value ? `<p class="text-sm mb-1"><span class="font-medium">Nombre:</span> ${customerName.value}</p>` : ''}
+                            ${customerId.value ? `<p class="text-sm mb-1"><span class="font-medium">${customerIdType.options[customerIdType.selectedIndex].text}:</span> ${customerId.value}</p>` : ''}
+                            ${customerContact.value ? `<p class="text-sm"><span class="font-medium">Contacto:</span> ${customerContact.value}</p>` : ''}
+                        </div>
+                        ` : ''}
                         
                         <div class="receipt-footer">
                             <p class="footer-text"><strong>Sistema de facturación de Bahia Chill ®</strong><br><strong>Todos los derechos reservados</strong></p>
@@ -1850,6 +1859,7 @@ paymentMethodSelect.addEventListener('change', () => {
 });
 
 // Inicializar el estado del botón al cargar la página
+
 if (!paymentMethodSelect.value) {
     finalizeOrderButton.disabled = true;
     finalizeOrderButton.classList.add('bg-gray-400', 'cursor-not-allowed');
@@ -1945,6 +1955,15 @@ function showReceipt(paymentMethod = null) {
                     <p><strong>Medio de Pago:</strong> ${paymentMethod}</p>
                 </div>
                 ` : ''}
+
+                ${(customerName.value || customerId.value || customerContact.value) ? `
+                <div class="mt-6 border-t border-gray-200 pt-4">
+                    <h2 class="text-lg font-semibold mb-2">Datos del Cliente</h2>
+                    ${customerName.value ? `<p class="text-sm mb-1"><span class="font-medium">Nombre:</span> ${customerName.value}</p>` : ''}
+                    ${customerId.value ? `<p class="text-sm mb-1"><span class="font-medium">${customerIdType.options[customerIdType.selectedIndex].text}:</span> ${customerId.value}</p>` : ''}
+                    ${customerContact.value ? `<p class="text-sm"><span class="font-medium">Contacto:</span> ${customerContact.value}</p>` : ''}
+                </div>
+                ` : ''}
                 
                 <div class="receipt-footer">
                     <p class="footer-text"><strong>Sistema de facturación de Bahia Chill ®</strong><br><strong>Todos los derechos reservados</strong></p>
@@ -2002,6 +2021,19 @@ function showReceiptPreview(paymentMethod) {
     paymentMethodElement.className = 'mt-4 text-sm text-gray-700';
     paymentMethodElement.innerHTML = `<p><strong>Medio de Pago:</strong> ${paymentMethod}</p>`;
     receiptContent.appendChild(paymentMethodElement);
+
+    // Agregar datos del cliente al preview
+    if (customerName.value || customerId.value || customerContact.value) {
+        const customerInfoElement = document.createElement('div');
+        customerInfoElement.className = 'mt-6 border-t border-gray-200 pt-4';
+        customerInfoElement.innerHTML = `
+            <h2 class="text-lg font-semibold mb-2">Datos del Cliente</h2>
+            ${customerName.value ? `<p class="text-sm mb-1"><span class="font-medium">Nombre:</span> ${customerName.value}</p>` : ''}
+            ${customerId.value ? `<p class="text-sm mb-1"><span class="font-medium">${customerIdType.options[customerIdType.selectedIndex].text}:</span> ${customerId.value}</p>` : ''}
+            ${customerContact.value ? `<p class="text-sm"><span class="font-medium">Contacto:</span> ${customerContact.value}</p>` : ''}
+        `;
+        receiptContent.appendChild(customerInfoElement);
+    }
 
     receiptModal.classList.remove('hidden');
 }
