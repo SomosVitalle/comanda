@@ -1474,7 +1474,8 @@
             
             // Simular retraso de procesamiento
             setTimeout(() => {
-                let total = currentOrder.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+                let subtotal = currentOrder.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+                let total = subtotal - (currentOrderDiscount?.amount || 0);
                 const now = new Date();
                 const formattedDate = now.toLocaleDateString('es-CO', {
                     day: 'numeric',
@@ -1518,7 +1519,6 @@
                             <tbody>
                                 ${currentOrder.map(item => {
                                     const itemTotal = item.product.price * item.quantity;
-                                    total += itemTotal; // Sumar al total
                                     return `
                                         <tr>
                                             <td class="text-left py-2 text-sm">${item.product.name}</td>
@@ -1530,6 +1530,13 @@
                                 }).join('')}
                             </tbody>
                         </table>
+                        
+                        <div class="border-t border-gray-200 pt-3">
+                            <div class="flex justify-between font-semibold text-lg">
+                                <span>Subtotal:</span>
+                                <span>$${subtotal.toLocaleString('es-CO')}</span>
+                            </div>
+                        </div>
                         
                         ${currentOrderDiscount ? `
                         <div class="border-t border-gray-200 pt-3">
@@ -1543,7 +1550,7 @@
                         <div class="border-t border-gray-200 pt-3">
                             <div class="flex justify-between font-semibold text-lg">
                                 <span>Total:</span>
-                                <span>$${(total - (currentOrderDiscount?.amount || 0)).toLocaleString('es-CO')}</span>
+                                <span>$${total.toLocaleString('es-CO')}</span>
                             </div>
                         </div>
                                                 
@@ -1892,7 +1899,8 @@ function showReceipt(paymentMethod = null) {
 
     // Simular retraso de procesamiento
     setTimeout(() => {
-        let total = currentOrder.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+        let subtotal = currentOrder.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+        let total = subtotal - (currentOrderDiscount?.amount || 0);
         const now = new Date();
         const formattedDate = now.toLocaleDateString('es-CO', {
             day: 'numeric',
@@ -1936,7 +1944,6 @@ function showReceipt(paymentMethod = null) {
                     <tbody>
                         ${currentOrder.map(item => {
                             const itemTotal = item.product.price * item.quantity;
-                            total += itemTotal; // Sumar al total
                             return `
                                 <tr>
                                     <td class="text-left py-2 text-sm">${item.product.name}</td>
@@ -1948,6 +1955,13 @@ function showReceipt(paymentMethod = null) {
                         }).join('')}
                     </tbody>
                 </table>
+                
+                <div class="border-t border-gray-200 pt-3">
+                    <div class="flex justify-between font-semibold text-lg">
+                        <span>Subtotal:</span>
+                        <span>$${subtotal.toLocaleString('es-CO')}</span>
+                    </div>
+                </div>
                 
                 ${currentOrderDiscount ? `
                 <div class="border-t border-gray-200 pt-3">
@@ -1961,7 +1975,7 @@ function showReceipt(paymentMethod = null) {
                 <div class="border-t border-gray-200 pt-3">
                     <div class="flex justify-between font-semibold text-lg">
                         <span>Total:</span>
-                        <span>$${(total - (currentOrderDiscount?.amount || 0)).toLocaleString('es-CO')}</span>
+                        <span>$${total.toLocaleString('es-CO')}</span>
                     </div>
                 </div>
                 
@@ -2130,7 +2144,8 @@ function showReceipt(paymentMethod = null) {
 
     // Simular retraso de procesamiento
     setTimeout(() => {
-        let total = currentOrder.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+        let subtotal = currentOrder.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+        let total = subtotal - (currentOrderDiscount?.amount || 0);
         const now = new Date();
         const formattedDate = now.toLocaleDateString('es-CO', {
             day: 'numeric',
@@ -2186,6 +2201,13 @@ function showReceipt(paymentMethod = null) {
                     </tbody>
                 </table>
                 
+                <div class="border-t border-gray-200 pt-3">
+                    <div class="flex justify-between font-semibold text-lg">
+                        <span>Subtotal:</span>
+                        <span>$${subtotal.toLocaleString('es-CO')}</span>
+                    </div>
+                </div>
+                
                 ${currentOrderDiscount ? `
                 <div class="border-t border-gray-200 pt-3">
                     <div class="flex justify-between font-semibold text-lg">
@@ -2198,7 +2220,7 @@ function showReceipt(paymentMethod = null) {
                 <div class="border-t border-gray-200 pt-3">
                     <div class="flex justify-between font-semibold text-lg">
                         <span>Total:</span>
-                        <span>$${(total - (currentOrderDiscount?.amount || 0)).toLocaleString('es-CO')}</span>
+                        <span>$${total.toLocaleString('es-CO')}</span>
                     </div>
                 </div>
                 
