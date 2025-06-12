@@ -609,7 +609,7 @@
     <div id="login-screen" class="flex flex-col items-center justify-center min-h-screen p-4 login-container">
         <div class="w-full max-w-md rounded-lg shadow-md overflow-hidden fade-in">
             <div class="py-8 px-8 text-center">
-                <h1 class="text-3xl font-bold text-white">BAHIA CHILL</h1>
+                <h1 class="text-3xl font-bold text-white">CAFE TITAN</h1>
                 <p class="text-white opacity-90 mt-1">Comanda Digital</p>
             </div>
             
@@ -618,11 +618,9 @@
                     <label for="username" class="block text-white text-sm font-medium mb-2">Usuario</label>
                     <select id="username" class="w-full px-4 py-2 login-select rounded-md focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent">
                         <option value="" disabled selected class="text-gray-700">Seleccione un usuario</option>
-                        <option value="JUAN">JUAN</option>
-                        <option value="SANTIAGO">SANTIAGO</option>
-                        <option value="SOFIA">SOFIA</option>
-                        <option value="JULIAN">JULIAN</option>
-                        <option value="INVITADO">INVITADO</option>
+                        <option value="EMMANUEL">EMMANUEL</option>
+                        <option value="VENDEDOR 1">VENDEDOR 1</option>
+                        <option value="VENDEDOR 2">VENDEDOR 2</option>
                     </select>
                 </div>
                 
@@ -655,7 +653,7 @@
         <header class="bg-primary text-white py-4 px-6 shadow-md">
             <div class="flex justify-between items-center">
                 <div class="flex items-center">
-                    <h1 class="text-xl font-bold">BAHIA CHILL</h1>
+                    <h1 class="text-xl font-bold">CAFE TITAN</h1>
                     <span class="ml-2 text-sm opacity-80">Comanda Digital</span>
                 </div>
                 <div class="flex items-center">
@@ -671,16 +669,16 @@
         <main class="p-4">
             <!-- Table Selection -->
             <div class="mb-6">
-                <h2 class="text-lg font-semibold text-gray-700 mb-3">Seleccione una mesa</h2>
+                <h2 class="text-lg font-semibold text-gray-700 mb-3">Seleccione un cliente</h2>
                 <div class="custom-select">
                     <select id="table-select" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                        <option value="" disabled selected>Seleccione una mesa</option>
-                        <option value="1">Mesa 1</option>
-                        <option value="2">Mesa 2</option>
-                        <option value="3">Mesa 3</option>
-                        <option value="4">Mesa 4</option>
-                        <option value="5">Mesa 5</option>
-                        <option value="6">VIP</option>
+                        <option value="" disabled selected>Seleccione una cliente</option>
+                        <option value="1">Pasaje de Vargas</option>
+                        <option value="2">Centro 1</option>
+                        <option value="3">Centro 2</option>
+                        <option value="4">Norte 1</option>
+                        <option value="5">Norte 2</option>
+                        <option value="6">Otro</option>
                     </select>
                 </div>
             </div>
@@ -713,7 +711,7 @@
                     <div class="bg-white rounded-lg shadow-md p-4 sticky top-4">
                         <div class="flex justify-between items-center mb-4">
                             <h2 class="text-lg font-semibold text-gray-700">Resumen del Pedido</h2>
-                            <span id="current-table" class="px-2 py-1 bg-primary text-white text-sm rounded">Mesa no seleccionada</span>
+                            <span id="current-table" class="px-2 py-1 bg-primary text-white text-sm rounded">Cliente no seleccionad@</span>
                         </div>
                                                         
                         <!-- Order Items -->
@@ -794,7 +792,7 @@
                                     
                     <div>
                         <label for="product-notes" class="block text-gray-700 mb-2">Notas especiales</label>
-                        <textarea id="product-notes" rows="2" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Ej: Sin hielo, vaso adicional..."></textarea>
+                        <textarea id="product-notes" rows="2" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Ej: Comentarios adicionales..."></textarea>
                     </div>
                 </div>
                 
@@ -815,7 +813,7 @@
     <div id="receipt-modal" class="receipt-modal hidden">
         <div class="receipt-content">
             <div class="receipt-header text-center">
-                <h1 class="text-2xl font-bold">BAHIA CHILL</h1>
+                <h1 class="text-2xl font-bold">CAFE TITAN</h1>
                 <p class="text-sm opacity-90">Comanda Digital</p>
             </div>
             
@@ -824,7 +822,7 @@
             </div>
             
             <div class="receipt-footer">
-                <p class="text-sm text-gray-600">Gracias por su visita. ¡Vuelva pronto!</p>
+                <p class="text-sm text-gray-600">Gracias por su compra ¡Vuelva pronto!</p>
             </div>
             
             <div class="p-4 border-t border-gray-200 flex justify-between no-print">
@@ -871,60 +869,31 @@
     <script>
         // Data
         const users = [
-            { username: "JUAN", password: "7294" },
-            { username: "SANTIAGO", password: "3168" },
-            { username: "SOFIA", password: "4835" },
-            { username: "JULIAN", password: "1590" },
-            { username: "INVITADO", password: "6247" }
+            { username: "EMMANUEL", password: "1111" },
+            { username: "VENDEDOR 1", password: "2222" },
+            { username: "VENDEDOR 2", password: "3333" },
         ];
 
         const tables = [
-            { id: 1, label: "Mesa 1" },
-            { id: 2, label: "Mesa 2" },
-            { id: 3, label: "Mesa 3" },
-            { id: 4, label: "Mesa 4" },
-            { id: 5, label: "Mesa 5" },
-            { id: 6, label: "VIP" }
+            { id: 1, label: "Pasaje de Vargas" },
+            { id: 2, label: "Centro 1" },
+            { id: 3, label: "Centro 2" },
+            { id: 4, label: "Norte 1" },
+            { id: 5, label: "Norte 2" },
+            { id: 6, label: "Otro" }
         ];
 
         const products = [
-            { id: 1, name: "Aguila", price: 4000, category: "cerveza" },
-            { id: 2, name: "Poker", price: 4000, category: "cerveza" },
-            { id: 3, name: "Budwaiser", price: 3000, category: "cerveza" },
-            { id: 4, name: "Costena", price: 3000, category: "cerveza" },
-            { id: 5, name: "Coronita", price: 4000, category: "cerveza" },
-            { id: 6, name: "Corona", price: 8000, category: "cerveza" },
-            { id: 7, name: "Stella Artois", price: 8000, category: "cerveza" },
-            { id: 8, name: "1/2 Lider", price: 45000, category: "licor" },
-            { id: 9, name: "1 Lider", price: 85000, category: "licor" },
-            { id: 10, name: "1/2 Ron", price: 40000, category: "licor" },
-            { id: 11, name: "1 Ron", price: 80000, category: "licor" },
-            { id: 12, name: "Buchanan's", price: 220000, category: "licor" },
-            { id: 13, name: "Onix Negro", price: 80000, category: "licor" },
-            { id: 14, name: "Bacardi", price: 80000, category: "licor" },
-            { id: 15, name: "Onix Amarillo", price: 90000, category: "licor" },
-            { id: 16, name: "Cigarrillo", price: 1000, category: "otros" },
-            { id: 17, name: "Michelada", price: 2000, category: "coctel" },
-            { id: 18, name: "Agua", price: 3000, category: "bebida" },
-            { id: 19, name: "Cafe", price: 3000, category: "bebida" },
-            { id: 20, name: "Mani", price: 3000, category: "snack" },
-            { id: 21, name: "Coca Cola", price: 4000, category: "bebida" },
-            { id: 22, name: "Soda", price: 4000, category: "bebida" },
-            { id: 23, name: "Sprite", price: 4000, category: "bebida" },
-            { id: 24, name: "Ron con Cola", price: 28000, category: "coctel" },
-            { id: 25, name: "Pina Chill", price: 28000, category: "coctel" },
-            { id: 26, name: "Mojito", price: 28000, category: "coctel" },
-            { id: 27, name: "Vodka Martini", price: 40000, category: "coctel" },
-            { id: 28, name: "Pescera", price: 40000, category: "coctel" },
-            { id: 29, name: "Fuego de Bahia", price: 12000, category: "coctel" },
-            { id: 30, name: "Extasis Tropical", price: 12000, category: "coctel" },
-            { id: 31, name: "Seduccion Tropical", price: 12000, category: "coctel" },
-            { id: 32, name: "Mar de pasion", price: 12000, category: "coctel" },
-            { id: 33, name: "Atardecer Tropical", price: 12000, category: "coctel" },
-            { id: 34, name: "Naufragio", price: 12000, category: "coctel" },
-            { id: 35, name: "Brisa Acida", price: 12000, category: "coctel" },
-            { id: 36, name: "Tormenta Azul", price: 12000, category: "coctel" },
-            { id: 37, name: "Rayo Caribeno", price: 12000, category: "coctel" }
+            { id: 1, name: "250gr Tostion Media en Grano", price: 20000, category: "cafe" },
+            { id: 2, name: "250gr Tostion Media Molido", price: 20000, category: "cafe" },
+            { id: 3, name: "250gr Tostion Alta en Grano", price: 25000, category: "cafe" },
+            { id: 4, name: "250gr Tostion Alta Molido", price: 25000, category: "cafe" },
+            { id: 5, name: "450gr Tostion Media en Grano", price: 30000, category: "cafe" },
+            { id: 6, name: "450gr Tostion Media Molido", price: 30000, category: "cafe" },
+            { id: 7, name: "450gr Tostion Alta en Grano", price: 35000, category: "cafe" },
+            { id: 8, name: "450gr Tostion Alta Molido", price: 35000, category: "cafe" },
+            { id: 9, name: "250gr Cafe de Temporada", price: 30000, category: "cafe" },
+            { id: 10, name: "450gr Cafe de Temporada", price: 40000, category: "cafe" }
         ];
 
         // State
@@ -1162,7 +1131,7 @@
             
             if (table) {
                 if (currentOrder.length > 0) {
-                    if (confirm('¿Está seguro de cambiar de mesa? Se perderá el pedido actual.')) {
+                    if (confirm('¿Está seguro de cambiar de cliente? Se perderá el pedido actual.')) {
                         selectTable(table);
                         clearOrder();
                     } else {
@@ -1483,7 +1452,7 @@
             }
             
             if (!currentTable) {
-                alert('Por favor seleccione una mesa');
+                alert('Por favor seleccione un cliente');
                 return;
             }
             
@@ -1511,17 +1480,14 @@
                 receiptContent.innerHTML = `
                     <div class="receipt-container">
                         <div class="receipt-header">
-                            <h1 class="receipt-title">BAHIA CHILL</h1>
+                            <h1 class="receipt-title">CAFE TITAN</h1>
                             <div class="receipt-subheader">
-                                <p class="company-info">Bahia Chill S.A.S | NIT: 123456789-0</p>
-                                <p class="company-info" style="font-size: 12px;">Calle 12, #45-67 Avenida Universitaria, Tunja</p>
-                                <p class="company-info" style="font-size: 12px;">Tel: 3012345678 | bahiachillcafebar@gmail.com</p>
-                                <p class="company-info" style="font-size: 12px;">Resolución Dian 1234567890 del 12/34/5678</p>
-                                <p class="company-info" style="font-size: 12px;">Régimen Simple de Tributación</p>
+                                <p class="company-info">CAFE TITAN S.A.S | NIT: 123456789-0</p>
+                                <p class="company-info" style="font-size: 12px;">Tel: +57 321 9507572</p>
                             </div>
                             <div class="receipt-meta">
                                 <p>${formattedDate} - ${formattedTime}</p>
-                                <p><span class="font-medium">Mesa:</span> ${currentTable.label}</p>
+                                <p><span class="font-medium">Cliente:</span> ${currentTable.label}</p>
                                 <p><span class="font-medium">Atendido por:</span> ${currentUser.username}</p>
                             </div>
                         </div>
@@ -1589,7 +1555,7 @@
                         ` : ''}
                         
                         <div class="receipt-footer">
-                            <p class="footer-text"><strong>Sistema de facturación de Bahia Chill ®</strong><br><strong>Todos los derechos reservados</strong></p>
+                            <p class="footer-text"><strong>Sistema de facturación de Cafe Titan ®</strong><br><strong>Todos los derechos reservados</strong></p>
                         </div>
                     </div>
                 `;
@@ -1623,8 +1589,6 @@ paymentMethodContainer.innerHTML = `
         <option value="" disabled selected>Seleccione un medio de pago</option>
         <option value="Efectivo">Efectivo</option>
         <option value="Consignación Bancaria">Consignación Bancaria</option>
-        <option value="Tarjeta Crédito">Tarjeta Crédito</option>
-        <option value="Tarjeta Débito">Tarjeta Débito</option>
     </select>
     <p id="payment-method-error" class="text-red-500 text-sm hidden">Por favor seleccione un medio de pago.</p>
 `;
@@ -1680,7 +1644,7 @@ function showReceipt(paymentMethod = null) {
     }
 
     if (!currentTable) {
-        alert('Por favor seleccione una mesa');
+        alert('Por favor seleccione un cliente');
         return;
     }
 
@@ -1708,17 +1672,14 @@ function showReceipt(paymentMethod = null) {
         receiptContent.innerHTML = `
             <div class="receipt-container">
                 <div class="receipt-header">
-                    <h1 class="receipt-title">BAHIA CHILL</h1>
+                    <h1 class="receipt-title">CAFE TITAN</h1>
                     <div class="receipt-subheader">
-                        <p class="company-info">Bahia Chill S.A.S | NIT: 123456789-0</p>
-                        <p class="company-info" style="font-size: 12px;">Calle 12, #45-67 Avenida Universitaria, Tunja</p>
-                        <p class="company-info" style="font-size: 12px;">Tel: 3012345678 | bahiachillcafebar@gmail.com</p>
+                        <p class="company-info">Cafe Titan S.A.S | NIT: 123456789-0</p>
+                        <p class="company-info" style="font-size: 12px;">Tel: +57 321 9507572</p>
                         <p class="company-info" style="font-size: 12px;">Resolución Dian 1234567890 del 12/34/5678</p>
-                        <p class="company-info" style="font-size: 12px;">Régimen Simple de Tributación</p>
-                    </div>
                     <div class="receipt-meta">
                         <p>${formattedDate} - ${formattedTime}</p>
-                        <p><span class="font-medium">Mesa:</span> ${currentTable.label}</p>
+                        <p><span class="font-medium">Cliente:</span> ${currentTable.label}</p>
                         <p><span class="font-medium">Atendido por:</span> ${currentUser.username}</p>
                     </div>
                 </div>
@@ -1786,7 +1747,7 @@ function showReceipt(paymentMethod = null) {
                 ` : ''}
                 
                 <div class="receipt-footer">
-                    <p class="footer-text"><strong>Sistema de facturación de Bahia Chill ®</strong><br><strong>Todos los derechos reservados</strong></p>
+                    <p class="footer-text"><strong>Sistema de facturación de Cafe Titan ®</strong><br><strong>Todos los derechos reservados</strong></p>
                 </div>
             </div>
         `;
@@ -1955,7 +1916,7 @@ function showReceipt(paymentMethod = null) {
     }
 
     if (!currentTable) {
-        alert('Por favor seleccione una mesa');
+        alert('Por favor seleccione un cliente');
         return;
     }
 
@@ -1983,17 +1944,14 @@ function showReceipt(paymentMethod = null) {
         receiptContent.innerHTML = `
             <div class="receipt-container">
                 <div class="receipt-header">
-                    <h1 class="receipt-title">BAHIA CHILL</h1>
+                    <h1 class="receipt-title">CAFE TITAN</h1>
                     <div class="receipt-subheader">
-                        <p class="company-info">Bahia Chill S.A.S | NIT: 123456789-0</p>
-                        <p class="company-info" style="font-size: 12px;">Calle 12, #45-67 Avenida Universitaria, Tunja</p>
-                        <p class="company-info" style="font-size: 12px;">Tel: 3012345678 | bahiachillcafebar@gmail.com</p>
-                        <p class="company-info" style="font-size: 12px;">Resolución Dian 1234567890 del 12/34/5678</p>
-                        <p class="company-info" style="font-size: 12px;">Régimen Simple de Tributación</p>
+                        <p class="company-info">Cafe Titan S.A.S | NIT: 123456789-0</p>
+                        <p class="company-info" style="font-size: 12px;">Tel: +57 321 9507572</p>
                     </div>
                     <div class="receipt-meta">
                         <p>${formattedDate} - ${formattedTime}</p>
-                        <p><span class="font-medium">Mesa:</span> ${currentTable.label}</p>
+                        <p><span class="font-medium">Cliente:</span> ${currentTable.label}</p>
                         <p><span class="font-medium">Atendido por:</span> ${currentUser.username}</p>
                     </div>
                 </div>
@@ -2061,7 +2019,7 @@ function showReceipt(paymentMethod = null) {
                 ` : ''}
                 
                 <div class="receipt-footer">
-                    <p class="footer-text"><strong>Sistema de facturación de Bahia Chill ®</strong><br><strong>Todos los derechos reservados</strong></p>
+                    <p class="footer-text"><strong>Sistema de facturación de Cafe Titan ®</strong><br><strong>Todos los derechos reservados</strong></p>
                 </div>
             </div>
         `;
